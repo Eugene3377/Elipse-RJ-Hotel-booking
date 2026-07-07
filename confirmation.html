@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Confirmed | Eclipse RJ</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-bg page-flow">
+  <header class="site-header site-header--flow">
+    <div class="nav-container nav-container--confirmation">
+      <a href="index.html" class="brand-logo" data-brand-logo aria-label="Eclipse RJ Home">
+        <span class="brand-logo__wordmark">ECLIPSE RJ</span>
+      </a>
+      <div data-booking-steps class="header-booking-steps"></div>
+      <div class="header-actions" data-header-actions></div>
+    </div>
+  </header>
+
+  <main class="container confirmation-main">
+    <div class="confirmation-wrap">
+
+      <!-- Left: success message -->
+      <div class="confirmation-left">
+        <div class="confirmation-check" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <p class="confirmation-eyebrow">Booking confirmed</p>
+        <h1 class="confirmation-title">You're all set,<br><span data-booking-fill="guestName">Guest</span>.</h1>
+        <p class="confirmation-sub">A confirmation has been sent to your email. We look forward to welcoming you.</p>
+
+        <div class="confirmation-ref-block">
+          <span class="confirmation-ref-label">Booking reference</span>
+          <strong class="confirmation-ref-value" data-booking-ref>ECL-2026-00000</strong>
+        </div>
+
+        <div class="confirmation-actions">
+          <button type="button" class="btn btn-primary" data-print-receipt>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Print Receipt
+          </button>
+          <a href="search.html" class="btn btn-outline">Book Another Stay</a>
+        </div>
+        <a href="index.html" class="confirmation-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          Back to Homepage
+        </a>
+      </div>
+
+      <!-- Right: booking summary card -->
+      <div class="confirmation-right">
+        <div class="confirmation-summary-card">
+
+          <img src="Images/Luxury hotel room.jpg"
+               class="confirmation-summary-img" alt="" data-booking-fill-img="main">
+
+          <div class="confirmation-summary-body">
+            <p class="confirmation-summary-hotel" data-booking-fill="room">Ocean View Suite</p>
+            <p class="confirmation-summary-loc">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span data-booking-fill="location">Accra, Ghana</span>
+            </p>
+
+            <div class="confirmation-summary-rows">
+              <div class="confirmation-summary-row">
+                <span>Dates</span>
+                <strong data-booking-fill="dates">Jun 15 – Jun 18, 2026</strong>
+              </div>
+              <div class="confirmation-summary-row">
+                <span>Guests</span>
+                <strong data-booking-fill="guests">2 Adults</strong>
+              </div>
+              <div class="confirmation-summary-row confirmation-summary-row--total">
+                <span>Total Paid</span>
+                <strong data-booking-fill="totalPaid">GH&#x20B5;19,035</strong>
+              </div>
+            </div>
+
+            <div class="confirmation-summary-guarantee">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Free cancellation up to 48 hours before check-in
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer data-site-footer></footer>
+
+  <!-- ── Print Receipt (hidden on screen, shown only when printing) ── -->
+  <div id="print-receipt" aria-hidden="true">
+    <div class="receipt">
+
+      <div class="receipt__header">
+        <div class="receipt__brand">
+          <span class="receipt__brand-name">ECLIPSE RJ</span>
+          <span class="receipt__brand-sub">Hotel Booking</span>
+        </div>
+        <div class="receipt__header-right">
+          <p class="receipt__doc-title">Booking Confirmation</p>
+          <p class="receipt__doc-date" id="receipt-print-date"></p>
+        </div>
+      </div>
+
+      <div class="receipt__divider"></div>
+
+      <div class="receipt__ref-row">
+        <div>
+          <p class="receipt__label">Booking Reference</p>
+          <p class="receipt__ref" data-booking-ref>ECL-2026-00000</p>
+        </div>
+        <div class="receipt__status">
+          <span class="receipt__status-badge">&#x2713; Confirmed</span>
+        </div>
+      </div>
+
+      <div class="receipt__divider"></div>
+
+      <div class="receipt__section-title">Guest Details</div>
+      <div class="receipt__row">
+        <span class="receipt__label">Guest Name</span>
+        <span data-booking-fill="guestName">—</span>
+      </div>
+      <div class="receipt__row">
+        <span class="receipt__label">Guests</span>
+        <span data-booking-fill="guests">2 Adults</span>
+      </div>
+
+      <div class="receipt__divider"></div>
+
+      <div class="receipt__section-title">Property</div>
+      <div class="receipt__row">
+        <span class="receipt__label">Hotel</span>
+        <span data-booking-fill="room">Ocean View Suite</span>
+      </div>
+      <div class="receipt__row">
+        <span class="receipt__label">Location</span>
+        <span data-booking-fill="location">Accra, Ghana</span>
+      </div>
+      <div class="receipt__row">
+        <span class="receipt__label">Check-in</span>
+        <span data-booking-fill="checkin">Jun 15, 2026</span>
+      </div>
+      <div class="receipt__row">
+        <span class="receipt__label">Check-out</span>
+        <span data-booking-fill="checkout">Jun 18, 2026</span>
+      </div>
+      <div class="receipt__row">
+        <span class="receipt__label">Duration</span>
+        <span data-booking-fill="nights">3</span> nights
+      </div>
+
+      <div class="receipt__divider"></div>
+
+      <div class="receipt__section-title">Price Breakdown</div>
+      <div class="receipt__row">
+        <span class="receipt__label" data-booking-fill="subtotalLine">Room rate</span>
+        <span data-booking-fill="subtotal">GH&#x20B5;16,500</span>
+      </div>
+      <div class="receipt__row">
+        <span class="receipt__label">Taxes &amp; Fees (15%)</span>
+        <span data-booking-fill="tax">GH&#x20B5;2,475</span>
+      </div>
+      <div class="receipt__row">
+        <span class="receipt__label">Tourism Levy</span>
+        <span data-booking-fill="levy">GH&#x20B5;60</span>
+      </div>
+
+      <div class="receipt__divider receipt__divider--thick"></div>
+
+      <div class="receipt__total-row">
+        <span>Total Paid</span>
+        <strong data-booking-fill="totalPaid">GH&#x20B5;19,035</strong>
+      </div>
+
+      <div class="receipt__divider"></div>
+
+      <div class="receipt__footer">
+        <p>Thank you for choosing Eclipse RJ. We look forward to welcoming you.</p>
+        <p>Questions? Contact us at <strong>reservations@eclipserj.com</strong> or <strong>+233 55 123 4567</strong></p>
+        <p class="receipt__footer-policy">Free cancellation up to 48 hours before check-in. This document serves as your official booking confirmation.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="main.js" defer></script>
+</body>
+</html>

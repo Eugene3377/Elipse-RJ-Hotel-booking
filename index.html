@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eclipse RJ Hotel Booking | Luxury Stays in Ghana</title>
+  <meta name="description" content="Hand-picked luxury hotels across Ghana. Book stays in Accra, Kumasi, Cape Coast and Takoradi. Prices in Ghana Cedis.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="auth-required-notice" data-auth-notice hidden role="status" aria-live="polite">
+    <div class="auth-required-notice__inner">
+      <p class="auth-required-notice__text">Sign in or create an account to search stays, view rooms, and complete your booking.</p>
+      <button type="button" class="auth-required-notice__dismiss" data-auth-notice-dismiss aria-label="Dismiss message">&times;</button>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo" data-brand-logo aria-label="Eclipse RJ Home">
+        <span class="brand-logo__wordmark">ECLIPSE RJ</span>
+      </a>
+      <nav class="main-nav" aria-label="Primary">
+        <ul>
+          <li><a href="#destinations" data-nav-link>Destinations</a></li>
+          <li><a href="#rooms" data-nav-link>Rooms</a></li>
+          <li><a href="#amenities" data-nav-link>Amenities</a></li>
+          <li><a href="#experience" data-nav-link>Experience</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions" data-header-actions data-book-href="search.html"></div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── Hero ── -->
+    <section class="hero">
+      <div class="hero-bg-wrapper" aria-hidden="true">
+        <video class="hero-bg-video" autoplay muted loop playsinline preload="auto"
+          poster="Images/cosmos_1567789633.jpeg">
+          <source src="video/Kempinski Hotels Kempinski Hotel Gold Coast City Accra-1080.mp4" type="video/mp4">
+        </video>
+        <img src="Images/cosmos_1567789633.jpeg"
+             alt="" class="hero-bg-fallback">
+      </div>
+      <div class="hero-overlay"></div>
+
+      <div class="container hero-content">
+        <div class="hero-layout">
+
+          <div class="hero-copy">
+            <p class="hero-copy__qualifier animate-fade-up">Curated luxury stays across Ghana</p>
+            <h1 class="hero-copy__title animate-fade-up delay-1">Where you stay <br>defines the trip.</h1>
+            <p class="hero-copy__sub animate-fade-up delay-2">Hand-picked hotels from GH&#x20B5;420/night.<br>For discerning travelers who expect more.</p>
+          </div>
+
+          <!-- Search card — mirrors search.html toolbar fields exactly -->
+          <form class="availability-card animate-fade-up delay-2"
+                action="search.html" method="get"
+                data-booking-search-form
+                aria-label="Search for a hotel">
+
+            <p class="availability-card__title">Where are you headed?</p>
+
+            <div class="availability-field">
+              <label class="availability-field__label" for="hero-location">Destination</label>
+              <div class="availability-field__control">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <select id="hero-location" name="location" required>
+                  <option value="Accra, Ghana" selected>Accra, Ghana</option>
+                  <option value="Kumasi, Ghana">Kumasi, Ghana</option>
+                  <option value="Cape Coast, Ghana">Cape Coast, Ghana</option>
+                  <option value="Takoradi, Ghana">Takoradi, Ghana</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="availability-meta" role="group" aria-label="Stay dates and guests">
+              <div class="availability-meta__item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                <label for="hero-checkin">Check-in</label>
+                <input type="date" id="hero-checkin" name="checkin" value="2026-06-15" required>
+              </div>
+              <div class="availability-meta__item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                <label for="hero-checkout">Check-out</label>
+                <input type="date" id="hero-checkout" name="checkout" value="2026-06-18" required>
+              </div>
+              <div class="availability-meta__item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <label for="hero-guests">Guests</label>
+                <select id="hero-guests" name="guests" aria-label="Number of guests">
+                  <option value="1">1 Guest</option>
+                  <option value="2" selected>2 Guests</option>
+                  <option value="3">3 Guests</option>
+                  <option value="4">4 Guests</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-availability-search">Search Hotels</button>
+
+            <p class="availability-card__hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Free cancellation &nbsp;·&nbsp; No hidden fees
+            </p>
+          </form>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Trust marquee ── -->
+    <section class="info-banner bg-dark text-light" aria-label="Hotel guarantees and services">
+      <div class="info-marquee">
+        <div class="info-marquee__track" data-info-marquee></div>
+      </div>
+    </section>
+
+    <!-- ── Sponsors / Partners marquee (left → right) ── -->
+    <section class="sponsors-banner" aria-label="Our hotel partners">
+      <div class="sponsors-marquee">
+        <div class="sponsors-marquee__track" aria-hidden="true">
+          <!-- Group 1 -->
+          <ul class="sponsors-marquee__group">
+            <li class="sponsor-item"><span class="sponsor-wordmark">Kempinski</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark sponsor-wordmark--serif">Mövenpick</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark">Labadi Beach</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark sponsor-wordmark--serif">Best Western</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark">Golden Tulip</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark sponsor-wordmark--serif">Alisa Hotels</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark">Booking.com</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark sponsor-wordmark--serif">Agoda</span></li>
+          </ul>
+          <!-- Group 2 — duplicate for seamless loop -->
+          <ul class="sponsors-marquee__group" aria-hidden="true">
+            <li class="sponsor-item"><span class="sponsor-wordmark">Kempinski</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark sponsor-wordmark--serif">Mövenpick</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark">Labadi Beach</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark sponsor-wordmark--serif">Best Western</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark">Golden Tulip</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark sponsor-wordmark--serif">Alisa Hotels</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark">Booking.com</span></li>
+            <li class="sponsor-item"><span class="sponsor-wordmark sponsor-wordmark--serif">Agoda</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Featured Destinations ── -->
+    <section id="destinations" class="section section--destinations fade-in-scroll">
+      <div class="container">
+        <header class="section-header section-header--destinations">
+          <div class="header-left">
+            <span class="eyebrow">Where to go</span>
+            <h2>Featured Destinations</h2>
+          </div>
+        </header>
+
+        <div class="grid destinations-grid">
+          <article class="destination-card">
+            <a href="search.html?location=Accra%2C%20Ghana">
+              <img src="Images/cosmos_532104105.jpeg"
+                   alt="Accra luxury hotel pool" loading="lazy">
+              <div class="card-overlay">
+                <h3>Accra</h3>
+                <span class="card-overlay__meta">18 Properties</span>
+              </div>
+            </a>
+          </article>
+          <article class="destination-card">
+            <a href="search.html?location=Kumasi%2C%20Ghana">
+              <img src="Images/cosmos_999794062.jpeg"
+                   alt="Kumasi hotel" loading="lazy">
+              <div class="card-overlay">
+                <h3>Kumasi</h3>
+                <span class="card-overlay__meta">4 Properties</span>
+              </div>
+            </a>
+          </article>
+          <article class="destination-card">
+            <a href="search.html?location=Cape%20Coast%2C%20Ghana">
+              <img src="Images/cosmos_1601858583.jpeg"
+                   alt="Cape Coast beachfront hotel" loading="lazy">
+              <div class="card-overlay">
+                <h3>Cape Coast</h3>
+                <span class="card-overlay__meta">4 Properties</span>
+              </div>
+            </a>
+          </article>
+          <article class="destination-card">
+            <a href="search.html?location=Takoradi%2C%20Ghana">
+              <img src="Images/cosmos_788943945.jpeg"
+                   alt="Takoradi harbour hotel" loading="lazy">
+              <div class="card-overlay">
+                <h3>Takoradi</h3>
+                <span class="card-overlay__meta">3 Properties</span>
+              </div>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Rooms & Suites ── -->
+    <section id="rooms" class="section section--rooms bg-surface fade-in-scroll">
+      <div class="container">
+        <header class="section-header">
+          <div class="header-left">
+            <span class="eyebrow">Our suites</span>
+            <h2>Luxury Rooms &amp; Suites</h2>
+          </div>
+          <div class="header-right">
+            <a href="search.html" class="btn btn-outline">View All Hotels</a>
+          </div>
+        </header>
+
+        <div class="grid rooms-grid rooms-grid--3col">
+          <article class="room-card">
+            <a href="room.html?roomId=presidential&checkin=2026-06-15&checkout=2026-06-18&guests=2&location=Accra%2C+Ghana" class="room-card__link">
+              <div class="room-image">
+                <div class="room-badge bg-accent">Featured</div>
+                <img src="Images/cosmos_891729727.jpeg"
+                     alt="Presidential Suite" loading="lazy">
+              </div>
+              <div class="room-details">
+                <h3>Presidential Suite</h3>
+                <div class="room-meta">
+                  <div><span class="room-meta__from">from</span> <span class="price">GH&#x20B5;8,200 <small>/ night</small></span></div>
+                  <span class="room-meta__arrow" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
+                </div>
+              </div>
+            </a>
+          </article>
+          <article class="room-card">
+            <a href="room.html?roomId=ocean&checkin=2026-06-15&checkout=2026-06-18&guests=2&location=Accra%2C+Ghana" class="room-card__link">
+              <div class="room-image">
+                <div class="room-badge bg-accent">Best Seller</div>
+                <img src="Images/Luxury hotel room.jpg"
+                     alt="Ocean View Suite" loading="lazy">
+              </div>
+              <div class="room-details">
+                <h3>Ocean View Suite</h3>
+                <div class="room-meta">
+                  <div><span class="room-meta__from">from</span> <span class="price">GH&#x20B5;5,500 <small>/ night</small></span></div>
+                  <span class="room-meta__arrow" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
+                </div>
+              </div>
+            </a>
+          </article>
+          <article class="room-card">
+            <a href="room.html?roomId=garden&checkin=2026-06-15&checkout=2026-06-18&guests=2&location=Accra%2C+Ghana" class="room-card__link">
+              <div class="room-image">
+                <div class="room-badge bg-dark text-light">Popular</div>
+                <img src="Images/cosmos_714083784.jpeg"
+                     alt="Garden Retreat Suite" loading="lazy">
+              </div>
+              <div class="room-details">
+                <h3>Garden Retreat Suite</h3>
+                <div class="room-meta">
+                  <div><span class="room-meta__from">from</span> <span class="price">GH&#x20B5;3,800 <small>/ night</small></span></div>
+                  <span class="room-meta__arrow" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
+                </div>
+              </div>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Amenities ── -->
+    <section id="amenities" class="section section--amenities fade-in-scroll">
+      <div class="container">
+        <header class="section-header">
+          <div class="header-left">
+            <span class="eyebrow">Services</span>
+            <h2>Premium Amenities</h2>
+          </div>
+          <div class="header-right">
+            <p>Every stay includes access to world-class facilities.</p>
+          </div>
+        </header>
+
+        <div class="amenities-grid-v2">
+          <article class="amenity-card-v2">
+            <div class="amenity-card-v2__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M12 22V12"/><path d="M5 3s.55 7 7 9c6.45-2 7-9 7-9S14 5 12 12C10 5 5 3 5 3z"/></svg>
+            </div>
+            <h3>Luxury Spa</h3>
+            <p>Award-winning treatments, steam rooms and holistic wellness programs.</p>
+            <span class="amenity-card-v2__tag">Included</span>
+          </article>
+          <article class="amenity-card-v2">
+            <div class="amenity-card-v2__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M2 12c1.5 0 1.5-1 3-1s1.5 1 3 1 1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1"/><path d="M2 17c1.5 0 1.5-1 3-1s1.5 1 3 1 1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1"/><path d="M12 3a3 3 0 0 1 3 3v3H9V6a3 3 0 0 1 3-3z"/></svg>
+            </div>
+            <h3>Infinity Pool</h3>
+            <p>Temperature-controlled pools with panoramic city and ocean views.</p>
+            <span class="amenity-card-v2__tag">All properties</span>
+          </article>
+          <article class="amenity-card-v2">
+            <div class="amenity-card-v2__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6h3.5a1.5 1.5 0 0 1 0 3H16v4"/></svg>
+            </div>
+            <h3>Fine Dining</h3>
+            <p>Culinary masterpieces by world-renowned chefs. Breakfast included.</p>
+            <span class="amenity-card-v2__tag">3 restaurants</span>
+          </article>
+          <article class="amenity-card-v2">
+            <div class="amenity-card-v2__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-3h10l2 3h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M9 17h6"/></svg>
+            </div>
+            <h3>Chauffeur Service</h3>
+            <p>Premium fleet, airport transfers and city tours on request.</p>
+            <span class="amenity-card-v2__tag">24 / 7</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Experience ── -->
+    <section id="experience" class="section section--experience fade-in-scroll">
+      <div class="container">
+        <div class="split-layout">
+          <div class="split-content">
+            <span class="eyebrow">ENLIGHTEN YOUR STAY</span>
+            <h2>Luminous Living:<br>Innovative Luxury Design</h2>
+            <p>Every Eclipse RJ property is meticulously crafted with modern European and African design principles — a harmony of sleek interiors and warm, inviting spaces. Tranquility in the heart of the city.</p>
+            <a href="search.html" class="btn btn-primary mt-4">Browse All Hotels</a>
+          </div>
+          <div class="split-image">
+            <img src="Images/cosmos_242987349 (1).jpeg"
+                 alt="Luxury lounge interior with warm lighting" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Testimonials ── -->
+    <section id="testimonials" class="section section--testimonials bg-surface fade-in-scroll">
+      <div class="container">
+        <header class="section-header">
+          <div class="header-left">
+            <span class="eyebrow">What guests say</span>
+            <h2>Guest Experiences</h2>
+          </div>
+          <div class="header-right">
+            <div class="testimonials-rating">
+              <span class="testimonials-rating__score">4.9</span>
+              <div>
+                <div class="stars" aria-label="4.9 out of 5 stars">★★★★★</div>
+                <p class="testimonials-rating__label">Average guest score</p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="testimonials-grid-v2">
+          <article class="testimonial-card-v2">
+            <div class="testimonial-card-v2__quote" aria-hidden="true">"</div>
+            <blockquote><p>An absolutely phenomenal experience. The attention to detail in the suite design and the impeccable service made our anniversary unforgettable.</p></blockquote>
+            <footer class="testimonial-card-v2__footer">
+              <div class="testimonial-card-v2__avatar" aria-hidden="true">JT</div>
+              <div><strong>James T.</strong><span>London, UK</span></div>
+              <div class="stars testimonial-card-v2__stars" aria-label="5 stars">★★★★★</div>
+            </footer>
+          </article>
+          <article class="testimonial-card-v2">
+            <div class="testimonial-card-v2__quote" aria-hidden="true">"</div>
+            <blockquote><p>Eclipse RJ represents the pinnacle of luxury in Ghana. The fine dining options are world-class and the ambiance is sophisticated yet welcoming.</p></blockquote>
+            <footer class="testimonial-card-v2__footer">
+              <div class="testimonial-card-v2__avatar" aria-hidden="true">SM</div>
+              <div><strong>Sarah M.</strong><span>New York, USA</span></div>
+              <div class="stars testimonial-card-v2__stars" aria-label="5 stars">★★★★★</div>
+            </footer>
+          </article>
+          <article class="testimonial-card-v2">
+            <div class="testimonial-card-v2__quote" aria-hidden="true">"</div>
+            <blockquote><p>From the seamless airport pickup to the stunning ocean views, everything was curated perfectly. Will definitely be returning.</p></blockquote>
+            <footer class="testimonial-card-v2__footer">
+              <div class="testimonial-card-v2__avatar" aria-hidden="true">DO</div>
+              <div><strong>David O.</strong><span>Lagos, Nigeria</span></div>
+              <div class="stars testimonial-card-v2__stars" aria-label="5 stars">★★★★★</div>
+            </footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="booking-policy" class="section section--policy bg-surface fade-in-scroll">
+      <div class="container">
+        <header class="section-header">
+          <div class="header-left">
+            <span class="eyebrow">Before you book</span>
+            <h2>Booking Essentials</h2>
+          </div>
+          <div class="header-right">
+            <p>Clear terms for payment, cancellation, and guest support before checkout.</p>
+          </div>
+        </header>
+
+        <div class="policy-grid">
+          <article class="policy-card">
+            <span class="policy-card__label">FAQ</span>
+            <h3>What is included?</h3>
+            <p>Rates include selected room amenities, breakfast where listed, secure payment handling, and 24/7 reservation support.</p>
+          </article>
+          <article class="policy-card">
+            <span class="policy-card__label">Cancellation</span>
+            <h3>Flexible changes</h3>
+            <p>Cancel or amend most bookings up to 48 hours before check-in. Special offers may carry stricter hotel rules.</p>
+          </article>
+          <article class="policy-card">
+            <span class="policy-card__label">Terms</span>
+            <h3>Payment confirmation</h3>
+            <p>Bookings are confirmed after successful payment or verified bank transfer. A valid guest ID is required at check-in.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA / Newsletter ── -->
+    <section id="book" class="section section-padded fade-in-scroll">
+      <div class="container">
+        <div class="cta-banner bg-dark text-light">
+          <div class="cta-content">
+            <span class="eyebrow eyebrow--accent">Members only</span>
+            <h2>Ready for an unforgettable stay?</h2>
+            <p>Join our exclusive membership for premium perks, early access to new suites, and up to 15% off your next booking.</p>
+            <form class="newsletter-form" data-newsletter-form aria-label="Newsletter signup">
+              <input type="email" name="email" placeholder="Enter your email address"
+                     required autocomplete="email" aria-label="Email address">
+              <button type="submit" class="btn btn-accent">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer data-site-footer></footer>
+  <script src="main.js" defer></script>
+</body>
+</html>

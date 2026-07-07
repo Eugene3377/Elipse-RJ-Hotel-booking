@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Results | Eclipse RJ Hotel Booking</title>
+  <meta name="description" content="Find luxury suites in Accra, Kumasi, Cape Coast and across Ghana. Prices in Ghana Cedis (GH₵).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body class="bg-bg page-flow search-explore-page" data-google-maps-key="">
+  <header class="site-header site-header--flow">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo" data-brand-logo aria-label="Eclipse RJ Home">
+        <span class="brand-logo__wordmark">ECLIPSE RJ</span>
+      </a>
+      <div data-booking-steps class="header-booking-steps"></div>
+      <div class="header-actions" data-header-actions></div>
+    </div>
+  </header>
+
+  <main id="main-content" class="search-explore-main">
+    <div class="explore-toolbar">
+      <form action="search.html" method="get" class="explore-search-form" data-booking-search-form id="search-form">
+        <div class="explore-search-field explore-search-field--grow">
+          <svg class="explore-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="search-destination" name="location" value="" placeholder="Hotels in Accra, Ghana…" required autocomplete="off" aria-label="Destination">
+        </div>
+        <input type="date" id="search-checkin" name="checkin" class="explore-date" value="2026-06-15" required aria-label="Check-in">
+        <input type="date" id="search-checkout" name="checkout" class="explore-date" value="2026-06-18" required aria-label="Check-out">
+        <select id="search-guests" name="guests" class="explore-select" aria-label="Guests">
+          <option value="1">1 Guest</option>
+          <option value="2" selected>2 Guests</option>
+          <option value="3">3 Guests</option>
+          <option value="4">4 Guests</option>
+          </select>
+        <button type="submit" class="btn btn-accent explore-search-btn">Search</button>
+      </form>
+      <div class="explore-view-toggle" role="group" aria-label="View mode">
+        <button type="button" class="explore-view-btn is-active" data-view="grid">Grid</button>
+        <button type="button" class="explore-view-btn" data-view="map">Map</button>
+              </div>
+            </div>
+            
+    <header class="explore-head">
+      <div>
+        <h1>Hotels in <span data-location-label>Accra</span> for your stay</h1>
+        <p class="explore-head__count" id="results-count" aria-live="polite">Searching…</p>
+      </div>
+      <p class="explore-head__qualifier">Hand-picked properties &middot; Indicative rates &middot; No hidden fees</p>
+      <p class="explore-head__context" data-booking-context hidden></p>
+    </header>
+
+    <div class="explore-filters" role="toolbar" aria-label="Filters">
+      <label class="explore-filter-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <select id="search-area" aria-label="Location">
+          <option value="">All locations</option>
+          <optgroup label="Cities">
+            <option value="city:accra">Accra</option>
+            <option value="city:kumasi">Kumasi</option>
+            <option value="city:cape-coast">Cape Coast</option>
+            <option value="city:takoradi">Takoradi</option>
+          </optgroup>
+        </select>
+      </label>
+      <label class="explore-filter-pill">
+        <select id="filter-price" aria-label="Price range">
+          <option value="">Any price</option>
+          <option value="0-1000">Under GH&#x20B5;1,000</option>
+          <option value="1000-3000">GH&#x20B5;1,000 – 3,000</option>
+          <option value="3000-5000">GH&#x20B5;3,000 – 5,000</option>
+          <option value="5000-99999">GH&#x20B5;5,000+</option>
+        </select>
+      </label>
+      <label class="explore-filter-pill">
+        <select id="filter-type" aria-label="Property type" disabled>
+          <option>Hotels</option>
+        </select>
+      </label>
+      <div class="explore-sort-group">
+        <button type="button" class="sort-btn is-active" data-sort="top">Top picks ✓</button>
+        <button type="button" class="sort-btn" data-sort="low">Price ↑</button>
+        <button type="button" class="sort-btn" data-sort="high">Price ↓</button>
+      </div>
+    </div>
+
+    <section class="explore-split" aria-label="Search results and map">
+      <div class="explore-grid-panel" id="explore-grid-panel">
+        <div class="search-empty-state" id="search-empty-state" hidden>
+          <p><strong>No hotels in this area.</strong></p>
+          <p>Try Accra, Kumasi, Cape Coast, or another neighbourhood.</p>
+        </div>
+        <div class="property-grid" id="search-results-list"></div>
+      </div>
+
+      <aside class="explore-map-panel" id="explore-map-panel">
+        <div class="google-map-wrap">
+          <div id="google-map" class="google-map-canvas" role="region" aria-label="Hotels Map"></div>
+          <iframe id="google-map-embed" class="google-map-embed" hidden loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Google Maps"></iframe>
+          <div class="map-markers map-markers--overlay" id="map-markers" aria-hidden="true"></div>
+          <div class="gmap-float-controls">
+            <button type="button" class="gmap-ctrl" id="map-zoom-in" title="Zoom in">+</button>
+            <button type="button" class="gmap-ctrl" id="map-zoom-out" title="Zoom out">−</button>
+            <button type="button" class="gmap-ctrl gmap-ctrl--locate" id="map-fit-bounds" title="Fit all hotels">◎</button>
+          </div>
+        </div>
+        <p class="map-panel__location" id="map-location-label">📍 Hotels in Accra, Ghana</p>
+        <p class="map-api-hint" id="map-key-notice" hidden>Tip: add your <a href="https://console.cloud.google.com/google/maps-apis" target="_blank" rel="noopener">Google Maps API key</a> to <code>data-google-maps-key</code> on the page for the full interactive map.</p>
+      </aside>
+    </section>
+
+    <script>
+      (function () {
+        'use strict';
+
+        var REGIONS = {
+          accra: {
+            label: 'Accra',
+            mapLabel: 'Accra, Ghana',
+            center: { lat: 5.6037, lng: -0.1870 },
+            zoom: 12,
+            bbox: [-0.35, 5.48, -0.05, 5.70]
+          },
+          kumasi: {
+            label: 'Kumasi',
+            mapLabel: 'Kumasi, Ghana',
+            center: { lat: 6.6885, lng: -1.6244 },
+            zoom: 13,
+            bbox: [-1.68, 6.66, -1.58, 6.72]
+          },
+          'cape-coast': {
+            label: 'Cape Coast',
+            mapLabel: 'Cape Coast, Ghana',
+            center: { lat: 5.1053, lng: -1.2466 },
+            zoom: 12,
+            bbox: [-1.38, 5.06, -1.22, 5.14]
+          },
+          takoradi: {
+            label: 'Takoradi',
+            mapLabel: 'Takoradi, Ghana',
+            center: { lat: 4.9016, lng: -1.7534 },
+            zoom: 12,
+            bbox: [-2.02, 4.84, -1.70, 4.96]
+          }
+        };
+
+        var googleMap = null;
+        var mapOverlays = [];
+        var mapsApiReady = false;
+        var useEmbedFallback = true;
+        var activePinId = null;
+
+        /* Real Ghana hotels — indicative published rates (GH₵/night, before tax). Sources: hotel sites & 2025–26 listings. */
+        var HOTELS = [
+          {
+            id: 'kempinski-gcc',
+            roomId: 'presidential',
+            city: 'accra',
+            areas: ['airport-residential', 'cantonments'],
+            name: 'Kempinski Hotel Gold Coast City',
+            badge: '5-star',
+            badgeClass: '',
+            price: 2400,
+            score: 9.2,
+            lat: 5.6056,
+            lng: -0.1710,
+            address: 'PMB 66, Ministers Road, Airport City, Accra',
+            image: 'Images/cosmos_1567789633.jpeg',
+            features: ['Deluxe from GH₵2,400/night', 'Airport pickup (Kotoka)', 'Pool & spa', 'Published delegate rate']
+          },
+          {
+            id: 'movenpick-accra',
+            roomId: 'presidential',
+            city: 'accra',
+            areas: ['ridge', 'cantonments'],
+            name: 'Mövenpick Ambassador Hotel Accra',
+            badge: 'Ridge',
+            badgeClass: 'map-chip--muted',
+            price: 4500,
+            score: 9.0,
+            lat: 5.5686,
+            lng: -0.1967,
+            address: 'Independence Avenue, Ridge, Accra',
+            image: 'Images/cosmos_999794062.jpeg',
+            features: ['From ~USD 280/night', 'Airport shuttle', 'Pool & executive floor', 'Superior rooms']
+          },
+          {
+            id: 'labadi-beach',
+            roomId: 'presidential',
+            city: 'accra',
+            areas: ['labone', 'osu'],
+            name: 'Labadi Beach Hotel',
+            badge: 'Beachfront',
+            badgeClass: '',
+            price: 4900,
+            score: 8.8,
+            lat: 5.5478,
+            lng: -0.1405,
+            address: 'No. 1 La Bypass, Labadi, Accra',
+            image: 'Images/Luxury hotel room.jpg',
+            features: ['Beach & 2 pools', 'From ~USD 342/night', '3 restaurants', 'Near Labadi Beach']
+          },
+          {
+            id: 'alisa-north-ridge',
+            roomId: 'ocean',
+            city: 'accra',
+            areas: ['ridge', 'cantonments'],
+            name: 'Alisa Hotel North Ridge',
+            badge: 'Business',
+            badgeClass: 'map-chip--muted',
+            price: 2800,
+            score: 8.7,
+            lat: 5.5750,
+            lng: -0.1950,
+            address: '21 Dr Isert St, North Ridge, Accra',
+            image: 'Images/cosmos_714083784.jpeg',
+            features: ['Superior ~USD 184/night', '6 km from Kotoka', 'Conference facilities', 'Suite options']
+          },
+          {
+            id: 'accra-city-hotel',
+            roomId: 'ocean',
+            city: 'accra',
+            areas: ['adabraka', 'osu'],
+            name: 'Accra City Hotel',
+            badge: 'City centre',
+            badgeClass: '',
+            price: 1950,
+            score: 8.5,
+            lat: 5.5565,
+            lng: -0.2010,
+            address: 'Barnes Road, Adabraka, Accra',
+            image: 'Images/cosmos_532104105.jpeg',
+            features: ['Ghana’s first intl. branded hotel', 'Queen rooms', 'Near National Theatre', 'ISO certified']
+          },
+          {
+            id: 'oak-plaza-east',
+            roomId: 'garden',
+            city: 'accra',
+            areas: ['east-legon', 'airport-residential'],
+            name: 'Oak Plaza Hotels East Airport',
+            badge: 'Best value',
+            badgeClass: 'map-chip--green',
+            price: 1200,
+            score: 8.4,
+            lat: 5.6350,
+            lng: -0.1520,
+            address: 'Plot 16, Patrice Lumumba Rd, Airport Residential, Accra',
+            image: 'Images/cosmos_788943945.jpeg',
+            features: ['Near Kotoka Airport', 'Complimentary breakfast', 'Pool', 'MoMo & card accepted']
+          },
+          {
+            id: 'oxford-street-osu',
+            roomId: 'garden',
+            city: 'accra',
+            areas: ['osu', 'labone'],
+            name: 'No. 1 Oxford Street Hotel & Suites',
+            badge: 'Osu nightlife',
+            badgeClass: 'map-chip--muted',
+            price: 1400,
+            score: 8.6,
+            lat: 5.5570,
+            lng: -0.1750,
+            address: 'Oxford Street, Osu, Accra',
+            image: 'Images/cosmos_1786584292.jpeg',
+            features: ['Heart of Osu', 'Rooftop bar', 'Air conditioning', 'Restaurant on-site']
+          },
+          {
+            id: 'villa-monticello',
+            roomId: 'presidential',
+            city: 'accra',
+            areas: ['cantonments', 'airport-residential'],
+            name: 'Villa Monticello Boutique Hotel',
+            badge: 'Boutique',
+            badgeClass: '',
+            price: 6500,
+            score: 9.3,
+            lat: 5.5720,
+            lng: -0.1830,
+            address: 'Ambassadorial Enclave, Cantonments, Accra',
+            image: 'Images/cosmos_891729727.jpeg',
+            features: ['Ultra-luxury suites', 'Fine dining', 'Spa', 'Cantonments address']
+          },
+          {
+            id: 'grand-casamora',
+            roomId: 'garden',
+            city: 'accra',
+            areas: ['east-legon'],
+            name: 'Grand Casamora Hotel',
+            badge: '4-star',
+            badgeClass: 'map-chip--green',
+            price: 873,
+            score: 8.2,
+            lat: 5.6620,
+            lng: -0.1450,
+            address: 'East Legon, Ashaley Botwe Road, Accra',
+            image: 'Images/cosmos_1567789633.jpeg',
+            features: ['Vibrant pool & garden', 'Sponsored by Booking.com', 'Free parking & WiFi', '4-star luxury service']
+          },
+          {
+            id: 'the-aknac',
+            roomId: 'ocean',
+            city: 'accra',
+            areas: ['east-legon'],
+            name: 'The Aknac Hotel',
+            badge: '4-star',
+            badgeClass: '',
+            price: 1058,
+            score: 7.8,
+            lat: 5.6420,
+            lng: -0.1410,
+            address: 'Trassaco Valley Road, East Legon, Accra',
+            image: 'Images/cosmos_1674159522.jpeg',
+            features: ['Stylish boutique venue', 'Sponsored by Agoda', 'Complimentary breakfast', 'Pool and executive lounge']
+          },
+          {
+            id: 'lush-view',
+            roomId: 'garden',
+            city: 'accra',
+            areas: ['east-legon'],
+            name: 'Lush View Hotel',
+            badge: 'Accra Views',
+            badgeClass: 'map-chip--muted',
+            price: 1013,
+            score: 8.0,
+            lat: 5.6700,
+            lng: -0.1380,
+            address: 'Ashaley Botwe, East Legon, Accra',
+            image: 'Images/cosmos_714083784.jpeg',
+            features: ['Elevated city views', 'Terrace restaurant', 'Outdoor swimming pool', 'Close to Madina']
+          },
+          {
+            id: 'grand-star',
+            roomId: 'garden',
+            city: 'accra',
+            areas: ['east-legon'],
+            name: 'Grand Star Hotel',
+            badge: 'Best value',
+            badgeClass: 'map-chip--green',
+            price: 544,
+            score: 8.2,
+            lat: 5.6780,
+            lng: -0.1850,
+            address: 'Madina, Accra',
+            image: 'Images/cosmos_532104105.jpeg',
+            features: ['Free breakfast & shuttle', 'Budget-friendly rates', 'Cozy rooms with AC', 'Friendly staff']
+          },
+          {
+            id: 'best-western-beach',
+            roomId: 'ocean',
+            city: 'accra',
+            areas: ['labone', 'osu'],
+            name: 'Best Western Plus Accra Beach Hotel',
+            badge: 'Oceanfront',
+            badgeClass: '',
+            price: 1457,
+            score: 8.6,
+            lat: 5.5700,
+            lng: -0.1250,
+            address: 'Teshie Nungua Beach, Accra',
+            image: 'Images/cosmos_964079155.jpeg',
+            features: ['Sea views from all rooms', 'Premium gym & spa', 'Vibrant pool deck', 'Beachfront bar']
+          },
+          {
+            id: 'teshie-nungua-house',
+            roomId: 'garden',
+            city: 'accra',
+            areas: ['labone'],
+            name: 'Teshie Nungua Beach House',
+            badge: 'Beach escape',
+            badgeClass: 'map-chip--muted',
+            price: 469,
+            score: 8.2,
+            lat: 5.5680,
+            lng: -0.1300,
+            address: 'Nungua Beach Road, Accra',
+            image: 'Images/cosmos_788943945.jpeg',
+            features: ['Calm coastal retreat', 'Seafood dining', 'Sunset terrace', 'Steps to the sand']
+          },
+          {
+            id: 'oceanic-resort',
+            roomId: 'ocean',
+            city: 'accra',
+            areas: ['adabraka', 'osu'],
+            name: 'Oceanic Resort',
+            badge: 'Resort stay',
+            badgeClass: '',
+            price: 1207,
+            score: 8.4,
+            lat: 5.5350,
+            lng: -0.2250,
+            address: 'Korle Gonno Beachfront, Accra',
+            image: 'Images/cosmos_964079155.jpeg',
+            features: ['Tropical poolside bar', 'Historic Fort proximity', 'Fresh breeze terrace', 'Accra coastal view']
+          },
+          {
+            id: 'somewhere-nice',
+            roomId: 'garden',
+            city: 'accra',
+            areas: ['adabraka', 'ridge'],
+            name: 'Somewhere Nice Boutique Host',
+            badge: 'Eco boutique',
+            badgeClass: 'map-chip--green',
+            price: 427,
+            score: 8.8,
+            lat: 5.5720,
+            lng: -0.2030,
+            address: 'Kokomlemle, Accra',
+            image: 'Images/cosmos_714083784.jpeg',
+            features: ['Eco-friendly design', 'Swimming pool & gardens', 'Shared kitchen option', 'Artistic atmosphere']
+          },
+          {
+            id: 'plus-33-hotel',
+            roomId: 'garden',
+            city: 'accra',
+            areas: ['east-legon'],
+            name: 'Plus 33 Hotel',
+            badge: 'Boutique',
+            badgeClass: '',
+            price: 374,
+            score: 8.0,
+            lat: 5.5900,
+            lng: -0.1400,
+            address: 'East Legon Extension, Accra',
+            image: 'Images/cosmos_532104105.jpeg',
+            features: ['Comfortable modern suites', 'Cozy cocktail bar', 'Near Kotoka Airport', 'Superb local service']
+          },
+          {
+            id: 'crismon-hotel',
+            roomId: 'ocean',
+            city: 'accra',
+            areas: ['cantonments'],
+            name: 'Crismon Hotel',
+            badge: 'Business',
+            badgeClass: 'map-chip--muted',
+            price: 1086,
+            score: 8.4,
+            lat: 5.6100,
+            lng: -0.1100,
+            address: 'Tema Outer Road, Accra',
+            image: 'Images/cosmos_242987349 (1).jpeg',
+            features: ['High-speed internet', 'Modern conference hall', 'Fitness center', 'Delicious buffet']
+          },
+          {
+            id: 'gracecape-kumasi',
+            roomId: 'garden',
+            city: 'kumasi',
+            areas: ['kumasi'],
+            name: 'GraceCape Hotel',
+            badge: 'Near airport',
+            badgeClass: 'map-chip--green',
+            price: 450,
+            score: 9.0,
+            lat: 6.7150,
+            lng: -1.5910,
+            address: 'Emena, Near Kumasi Airport, Kumasi',
+            image: 'Images/cosmos_714083784.jpeg',
+            features: ['Deluxe GH₵450/night (official)', 'Free Wi-Fi & breakfast', 'Conference hall', 'Family-friendly']
+          },
+          {
+            id: 'golden-tulip-kumasi',
+            roomId: 'ocean',
+            city: 'kumasi',
+            areas: ['kumasi'],
+            name: 'Golden Tulip Kumasi City',
+            badge: '4-star',
+            badgeClass: '',
+            price: 980,
+            score: 8.8,
+            lat: 6.6880,
+            lng: -1.6240,
+            address: 'Rain Tree Street, Lesley Opoku-Ware Rd, Kumasi',
+            image: 'Images/cosmos_999794062ytyt.jpeg',
+            features: ['Central Kumasi', 'Pool & restaurant', 'Business centre', 'Ashanti Region']
+          },
+          {
+            id: 'noble-house-kumasi',
+            roomId: 'garden',
+            city: 'kumasi',
+            areas: ['kumasi'],
+            name: 'Noble House Hotel',
+            badge: 'Mid-range',
+            badgeClass: 'map-chip--muted',
+            price: 900,
+            score: 7.8,
+            lat: 6.6920,
+            lng: -1.6180,
+            address: 'Ahodow Roundabout, Kumasi',
+            image: 'Images/cosmos_532104105.jpeg',
+            features: ['From ~USD 60/night', 'Restaurant', 'Free WiFi', 'Near Kejetia']
+          },
+          {
+            id: 'four-villages-kumasi',
+            roomId: 'ocean',
+            city: 'kumasi',
+            areas: ['kumasi'],
+            name: 'Four Villages Inn',
+            badge: 'Guest favourite',
+            badgeClass: '',
+            price: 870,
+            score: 9.3,
+            lat: 6.7010,
+            lng: -1.6050,
+            address: 'House 412, Melcom Rd, Ahodwo-Daban, Kumasi',
+            image: 'Images/cosmos_788943945.jpeg',
+            features: ['9.3 guest score', 'Quiet Ahodwo', 'From ~USD 62/night', 'Boutique stay']
+          },
+          {
+            id: 'samrit-cape-coast',
+            roomId: 'garden',
+            city: 'cape-coast',
+            areas: ['cape-coast'],
+            name: 'Samrit Hotel',
+            badge: 'Official rate',
+            badgeClass: 'map-chip--green',
+            price: 450,
+            score: 8.9,
+            lat: 5.1120,
+            lng: -1.2680,
+            address: 'Pedu Estate, Cape Coast',
+            image: 'Images/cosmos_714083784.jpeg',
+            features: ['Standard GH₵450/night (website)', 'Superior GH₵650', 'Pool & restaurant', 'Near castle']
+          },
+          {
+            id: 'ridge-royal-cape-coast',
+            roomId: 'ocean',
+            city: 'cape-coast',
+            areas: ['cape-coast'],
+            name: 'Ridge Royal Hotel',
+            badge: 'Pool & gym',
+            badgeClass: '',
+            price: 1650,
+            score: 8.5,
+            lat: 5.1080,
+            lng: -1.2800,
+            address: 'No. 1 2nd Ridge, Cape Coast',
+            image: 'Images/cosmos_956205052.jpeg',
+            features: ['From ~USD 118/night', 'Outdoor pool', 'Restaurant & bar', 'Free WiFi in lobby']
+          },
+          {
+            id: 'coconut-grove-elmina',
+            roomId: 'ocean',
+            city: 'cape-coast',
+            areas: ['cape-coast'],
+            name: 'Coconut Grove Beach Resort',
+            badge: 'Beach',
+            badgeClass: 'map-chip--muted',
+            price: 1200,
+            score: 8.7,
+            lat: 5.0850,
+            lng: -1.3500,
+            address: 'Moorings, Elmina (near Cape Coast)',
+            image: 'Images/cosmos_964079155.jpeg',
+            features: ['Beachfront', 'Heritage coast', 'Restaurant', 'Castle day trips']
+          },
+          {
+            id: 'marrets-cape-coast',
+            roomId: 'garden',
+            city: 'cape-coast',
+            areas: ['cape-coast'],
+            name: 'Marrets International Hotel',
+            badge: 'Budget',
+            badgeClass: 'map-chip--green',
+            price: 420,
+            score: 8.0,
+            lat: 5.1050,
+            lng: -1.2450,
+            address: 'Kotokuraba, Cape Coast',
+            image: 'Images/cosmos_532104105.jpeg',
+            features: ['From ~USD 28/night', 'Express rooms', 'Central location', 'Good for students']
+          },
+          {
+            id: 'atlantic-takoradi',
+            roomId: 'ocean',
+            city: 'takoradi',
+            areas: ['takoradi'],
+            name: 'Best Western Plus Atlantic Hotel',
+            badge: '4-star',
+            badgeClass: '',
+            price: 1400,
+            score: 8.6,
+            lat: 4.8960,
+            lng: -1.7600,
+            address: 'Beach Road, Takoradi',
+            image: 'Images/cosmos_788943945.jpeg',
+            features: ['International brand', 'Harbour views', 'Restaurant', 'Business travel']
+          },
+          {
+            id: 'twin-city-takoradi',
+            roomId: 'garden',
+            city: 'takoradi',
+            areas: ['takoradi'],
+            name: 'Twin City Hotel',
+            badge: 'Value',
+            badgeClass: 'map-chip--green',
+            price: 750,
+            score: 8.2,
+            lat: 4.8840,
+            lng: -1.7550,
+            address: 'Sekondi-Takoradi, Western Region',
+            image: 'Images/cosmos_714083784.jpeg',
+            features: ['From ~USD 51/night', 'Twin city location', 'Restaurant', 'Port access']
+          },
+          {
+            id: 'ahanta-beach-busua',
+            roomId: 'ocean',
+            city: 'takoradi',
+            areas: ['takoradi'],
+            name: 'Ahanta Beach Resort (Busua)',
+            badge: 'Surf coast',
+            badgeClass: 'map-chip--muted',
+            price: 850,
+            score: 8.9,
+            lat: 4.8640,
+            lng: -1.9900,
+            address: 'Busua Beach, near Takoradi',
+            image: 'Images/cosmos_964079155.jpeg',
+            features: ['Beach resort', 'Weekend escape', 'Local seafood', 'Western Region coast']
+          }
+        ];
+
+        var AREA_ALIASES = {
+          'airport residential': 'airport-residential',
+          'airport-residential': 'airport-residential',
+          'airport city': 'airport-residential',
+          cantonments: 'cantonments',
+          'north ridge': 'ridge',
+          'east legon': 'east-legon',
+          'east-legon': 'east-legon',
+          labone: 'labone',
+          labadi: 'labone',
+          la: 'labone',
+          osu: 'osu',
+          ridge: 'ridge',
+          adabraka: 'adabraka',
+          emena: 'kumasi',
+          pedu: 'cape-coast',
+          elmina: 'cape-coast',
+          busua: 'takoradi',
+          sekondi: 'takoradi',
+          kempinski: 'airport-residential',
+          movenpick: 'ridge',
+          madina: 'east-legon',
+          ashaley: 'east-legon',
+          botwe: 'east-legon',
+          teshie: 'labone',
+          nungua: 'labone',
+          korle: 'adabraka',
+          kokomlemle: 'adabraka',
+          tema: 'cantonments'
+        };
+
+        var CITY_ALIASES = [
+          { match: 'kumasi', city: 'kumasi' },
+          { match: 'cape coast', city: 'cape-coast' },
+          { match: 'cape-coast', city: 'cape-coast' },
+          { match: 'takoradi', city: 'takoradi' },
+          { match: 'tamale', city: 'accra' },
+          { match: 'accra', city: 'accra' },
+          { match: 'ghana', city: 'accra' }
+        ];
+
+        var destinationInput = document.getElementById('search-destination');
+        var areaSelect = document.getElementById('search-area');
+        var priceFilter = document.getElementById('filter-price');
+        var checkinInput = document.getElementById('search-checkin');
+        var checkoutInput = document.getElementById('search-checkout');
+        var mapContainer = document.getElementById('google-map');
+        var mapEmbed = document.getElementById('google-map-embed');
+        var mapMarkers = document.getElementById('map-markers');
+        var resultsList = document.getElementById('search-results-list');
+        var emptyState = document.getElementById('search-empty-state');
+        var locationLabel = document.querySelector('[data-location-label]');
+        var mapLocationLabel = document.getElementById('map-location-label');
+        var resultsCount = document.getElementById('results-count');
+        var sortButtons = document.querySelectorAll('.sort-btn');
+        var viewButtons = document.querySelectorAll('.explore-view-btn');
+        var exploreSplit = document.querySelector('.explore-split');
+        var exploreGridPanel = document.getElementById('explore-grid-panel');
+        var bookingContext = document.querySelector('[data-booking-context]');
+        var currentSort = 'top';
+        var debounceTimer;
+
+        var CITY_KEYS = ['accra', 'kumasi', 'cape-coast', 'takoradi'];
+        var ACCRA_AREAS = [
+          'airport-residential', 'cantonments', 'east-legon',
+          'labone', 'osu', 'ridge', 'adabraka'
+        ];
+
+        function formatGhs(amount) {
+          return 'GH\u20B5' + Number(amount).toLocaleString('en-GH');
+        }
+
+        function getNights() {
+          if (!checkinInput.value || !checkoutInput.value) return 3;
+          var start = new Date(checkinInput.value + 'T12:00:00');
+          var end = new Date(checkoutInput.value + 'T12:00:00');
+          var nights = Math.round((end - start) / (1000 * 60 * 60 * 24));
+          return nights > 0 ? nights : 1;
+        }
+
+        /* Guest multiplier: each guest pays the base nightly rate */
+        function getGuestMultiplier() {
+          var guests = parseInt((document.getElementById('search-guests') || {}).value || '2', 10);
+          return guests > 0 ? guests : 1;
+        }
+
+        function calcPrice(basePrice) {
+          return Math.round(basePrice * getGuestMultiplier());
+        }
+
+        function cityFromQuery(query) {
+          var city = '';
+          var i;
+          for (i = 0; i < CITY_ALIASES.length; i++) {
+            if (query.indexOf(CITY_ALIASES[i].match) !== -1) {
+              city = CITY_ALIASES[i].city;
+              break;
+            }
+          }
+          if (!city && query.indexOf('ghana') !== -1) city = 'accra';
+          return city;
+        }
+
+        function neighbourhoodFromQuery(query) {
+          var neighbourhood = '';
+          Object.keys(AREA_ALIASES).forEach(function (name) {
+            if (query.indexOf(name) !== -1) neighbourhood = AREA_ALIASES[name];
+          });
+          return neighbourhood;
+        }
+
+        function resolveSearch() {
+          var query = (destinationInput.value || '').toLowerCase().trim();
+          var selectVal = areaSelect.value;
+
+          /* Explicit city selected from dropdown */
+          if (selectVal.indexOf('city:') === 0) {
+            return { city: selectVal.replace('city:', ''), area: '', all: false };
+          }
+
+          /* Area filter */
+          if (selectVal.indexOf('area:') === 0) {
+            return { city: 'accra', area: selectVal.replace('area:', ''), all: false };
+          }
+
+          /* "All locations" selected — no city filter */
+          if (!selectVal) {
+            var detectedCity = cityFromQuery(query);
+            if (detectedCity) {
+              /* Text input names a specific city — honour it */
+              var neighbourhood = detectedCity === 'accra' ? neighbourhoodFromQuery(query) : '';
+              return { city: detectedCity, area: neighbourhood, all: false };
+            }
+            /* Truly "all" — show every hotel across Ghana */
+            return { city: '', area: '', all: true };
+          }
+
+          /* Fallback */
+          var city = cityFromQuery(query) || 'accra';
+          return { city: city, area: neighbourhoodFromQuery(query), all: false };
+        }
+
+        function syncAreaSelectToCity(city) {
+          if (!areaSelect || CITY_KEYS.indexOf(city) === -1) return;
+          areaSelect.value = 'city:' + city;
+        }
+
+        function syncDestinationToRegion(region) {
+          if (!destinationInput || document.activeElement === destinationInput) return;
+          destinationInput.value = region.mapLabel;
+        }
+
+        function filterByPrice(hotel) {
+          var range = priceFilter ? priceFilter.value : '';
+          if (!range) return true;
+          var parts = range.split('-');
+          var min = parseInt(parts[0], 10);
+          var max = parseInt(parts[1], 10);
+          return hotel.price >= min && hotel.price <= max;
+        }
+
+        function filterHotels() {
+          var query = (destinationInput.value || '').toLowerCase().trim();
+          var search = resolveSearch();
+
+          return HOTELS.filter(function (hotel) {
+            if (!filterByPrice(hotel)) return false;
+
+            /* City filter always applies first — name search only narrows within the city */
+            if (!search.all && hotel.city !== search.city) return false;
+            if (search.area && hotel.areas.indexOf(search.area) === -1) return false;
+
+            /* If a specific hotel name is typed, filter by name within the already-filtered city */
+            if (query) {
+              var isCity = CITY_ALIASES.some(function (a) { return query.indexOf(a.match) !== -1; });
+              if (!isCity && hotel.name.toLowerCase().indexOf(query) === -1) return false;
+            }
+
+            return true;
+          });
+        }
+
+        function getMapsApiKey() {
+          return (document.body.getAttribute('data-google-maps-key') || '').trim();
+        }
+
+        function clearMapOverlays() {
+          mapOverlays.forEach(function (marker) {
+            if (googleMap) googleMap.removeLayer(marker);
+          });
+          mapOverlays = [];
+          if (mapMarkers) mapMarkers.innerHTML = '';
+        }
+
+        function highlightHotel(hotelId) {
+          activePinId = hotelId;
+          document.querySelectorAll('.property-card').forEach(function (c) {
+            c.classList.toggle('is-highlighted', c.getAttribute('data-hotel-id') === hotelId);
+          });
+          document.querySelectorAll('.gmap-price-marker, .map-price-pin').forEach(function (p) {
+            p.classList.toggle('is-active', p.getAttribute('data-pin') === hotelId);
+          });
+          var card = document.querySelector('[data-hotel-id="' + hotelId + '"]');
+          if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function createPriceMarker(hotel) {
+          var formattedPrice = formatGhs(hotel.price);
+          var html = '<button type="button" class="map-price-pin" data-pin="' + hotel.id + '">' +
+                       formattedPrice +
+                     '</button>';
+
+          var customIcon = L.divIcon({
+            html: html,
+            className: 'leaflet-price-pin-wrap',
+            iconSize: null,
+            iconAnchor: [0, 0]
+          });
+
+          var marker = L.marker([hotel.lat, hotel.lng], { icon: customIcon });
+
+          marker.on('click', function (e) {
+            highlightHotel(hotel.id);
+          });
+
+          return marker;
+        }
+
+        function fitMapToHotels(hotels, region) {
+          if (!googleMap || !hotels.length) return;
+          if (hotels.length === 1) {
+            googleMap.setView([hotels[0].lat, hotels[0].lng], region.zoom || 14);
+            return;
+          }
+          var bounds = L.latLngBounds(hotels.map(function (h) {
+            return [h.lat, h.lng];
+          }));
+          googleMap.fitBounds(bounds, { padding: [56, 56] });
+        }
+
+        function sortHotels(hotels) {
+          var list = hotels.slice();
+          if (currentSort === 'low') {
+            list.sort(function (a, b) { return a.price - b.price; });
+          } else if (currentSort === 'high') {
+            list.sort(function (a, b) { return b.price - a.price; });
+          } else {
+            list.sort(function (a, b) { return b.score - a.score; });
+          }
+          return list;
+        }
+
+        function updateMap(hotels, region) {
+          clearMapOverlays();
+
+          if (googleMap && mapsApiReady) {
+            hotels.forEach(function (hotel) {
+              var marker = createPriceMarker(hotel);
+              marker.addTo(googleMap);
+              mapOverlays.push(marker);
+            });
+
+            if (activePinId) {
+              setTimeout(function () {
+                document.querySelectorAll('.map-price-pin').forEach(function (p) {
+                  p.classList.toggle('is-active', p.getAttribute('data-pin') === activePinId);
+                });
+              }, 50);
+            }
+
+            /* Use region bbox when available (e.g. "All locations" → Ghana overview) */
+            if (region.bbox) {
+              googleMap.fitBounds(
+                [[region.bbox[1], region.bbox[0]], [region.bbox[3], region.bbox[2]]],
+                { padding: [32, 32] }
+              );
+            } else {
+              fitMapToHotels(hotels, region);
+            }
+          }
+        }
+
+        function renderHotelCard(hotel, nights) {
+          var adjustedPrice = calcPrice(hotel.price);
+          var total = adjustedPrice * nights;
+          /* Pass all hotel-specific data into the room URL */
+          var checkin  = checkinInput  ? checkinInput.value  : '2026-06-15';
+          var checkout = checkoutInput ? checkoutInput.value : '2026-06-18';
+          var guests   = document.getElementById('search-guests')
+                           ? document.getElementById('search-guests').value : '2';
+          var roomUrl  = 'room.html?roomId=' + hotel.roomId +
+                         '&checkin='      + encodeURIComponent(checkin) +
+                         '&checkout='     + encodeURIComponent(checkout) +
+                         '&guests='       + encodeURIComponent(guests) +
+                         '&location='     + encodeURIComponent(
+                           destinationInput ? destinationInput.value : 'Accra, Ghana'
+                         ) +
+                         '&hotelName='    + encodeURIComponent(hotel.name) +
+                         '&hotelAddress=' + encodeURIComponent(hotel.address) +
+                         '&hotelPrice='   + encodeURIComponent(adjustedPrice) +
+                         '&hotelImage='   + encodeURIComponent(hotel.image) +
+                         '&hotelScore='   + encodeURIComponent(hotel.score);
+          var shortLoc = hotel.address.split(',').slice(0, 2).join(',').trim();
+
+          return (
+            '<article class="property-card" data-hotel-id="' + hotel.id + '" data-suite-card="' + hotel.id + '" data-price="' + hotel.price + '" data-score="' + hotel.score + '">' +
+              '<a href="' + roomUrl + '" class="property-card__link">' +
+                '<div class="property-card__media">' +
+                  '<img src="' + hotel.image + '" alt="' + hotel.name + '" loading="lazy">' +
+                '</div>' +
+                '<div class="property-card__glass">' +
+                  '<div class="property-card__row">' +
+                    '<h3 class="property-card__title">' + hotel.name + '</h3>' +
+                    '<span class="property-card__arrow" aria-hidden="true">' +
+                      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>' +
+                    '</span>' +
+                  '</div>' +
+                  '<p class="property-card__location">' +
+                    '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
+                    shortLoc +
+                  '</p>' +
+                  '<div class="property-card__meta">' +
+                    '<span class="property-card__rating">★ ' + hotel.score + '</span>' +
+                    '<div class="property-card__price-stack">' +
+                      (parseInt(guests) > 1 ? '<span class="property-card__base">' + formatGhs(hotel.price) + ' <small>/ night · 1 guest</small></span>' : '') +
+                      '<strong class="property-card__price">' + formatGhs(adjustedPrice) + ' <small>/ night' + (parseInt(guests) > 1 ? ' · ' + guests + ' guests' : '') + '</small></strong>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
+              '</a>' +
+            '</article>'
+          );
+        }
+
+        function applySearch() {
+          var search = resolveSearch();
+          var region;
+          if (search.all) {
+            region = {
+              label:    'Ghana',
+              mapLabel: 'Ghana',
+              center:   { lat: 7.9465, lng: -1.0232 },
+              zoom:     7,
+              bbox:     [-3.26, 4.74, 1.20, 11.17]
+            };
+          } else {
+            region = REGIONS[search.city] || REGIONS.accra;
+          }
+          var hotels = sortHotels(filterHotels());
+          var nights = getNights();
+          var guestCount = document.getElementById('search-guests').value || '2';
+
+          if (locationLabel) locationLabel.textContent = region.label;
+          if (bookingContext) {
+            bookingContext.textContent = nights + ' night' + (nights === 1 ? '' : 's') +
+              ' \u00b7 ' + guestCount + ' guest' + (guestCount === '1' ? '' : 's') +
+              ' \u00b7 ' + region.mapLabel;
+            bookingContext.hidden = false;
+          }
+          if (mapLocationLabel) {
+            mapLocationLabel.textContent = '\uD83D\uDCCD ' + hotels.length + ' hotel' +
+              (hotels.length === 1 ? '' : 's') + ' in ' + region.mapLabel;
+          }
+
+          if (resultsCount) {
+            var countLabel = hotels.length === 0
+              ? 'No hotels found'
+              : hotels.length + ' hotel' + (hotels.length === 1 ? '' : 's') + ' found';
+            resultsCount.textContent = countLabel + ' \u00b7 GH\u20B5 indicative rates';
+          }
+
+          if (exploreGridPanel) {
+            exploreGridPanel.classList.toggle('has-results', hotels.length > 0);
+            exploreGridPanel.classList.toggle('has-no-results', hotels.length === 0);
+          }
+
+          if (hotels.length === 0) {
+            emptyState.hidden = false;
+            emptyState.classList.add('is-visible');
+            resultsList.innerHTML = '';
+            clearMapOverlays();
+            updateMap([], region);
+            return;
+          }
+
+          emptyState.classList.remove('is-visible');
+          emptyState.hidden = true;
+
+          var INITIAL_LIMIT = 8;
+          var visibleHotels = hotels.slice(0, INITIAL_LIMIT);
+          var remaining = hotels.length - INITIAL_LIMIT;
+
+          var cardsHtml = visibleHotels.map(function (h) {
+            return renderHotelCard(h, nights);
+          }).join('');
+
+          if (remaining > 0) {
+            cardsHtml += '<div class="show-more-row">' +
+              '<button type="button" class="btn btn-outline show-more-btn">' +
+                'Show ' + remaining + ' more hotel' + (remaining === 1 ? '' : 's') +
+              '</button></div>';
+          }
+
+          resultsList.innerHTML = cardsHtml;
+
+          /* Wire show-more button */
+          var showMoreBtn = resultsList.querySelector('.show-more-btn');
+          if (showMoreBtn) {
+            showMoreBtn.addEventListener('click', function () {
+              var row = showMoreBtn.parentElement;
+              var extraHtml = hotels.slice(INITIAL_LIMIT).map(function (h) {
+                return renderHotelCard(h, nights);
+              }).join('');
+              row.insertAdjacentHTML('beforebegin', extraHtml);
+              row.remove();
+            });
+          }
+
+          updateMap(hotels, region);
+        }
+
+        function debouncedSearch() {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(applySearch, 350);
+        }
+
+        var sortLabels = {
+          top: 'Top picks',
+          low: 'Price: Low–High',
+          high: 'Price: High–Low'
+        };
+
+        sortButtons.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            sortButtons.forEach(function (other) {
+              other.classList.remove('is-active');
+              other.textContent = sortLabels[other.getAttribute('data-sort')];
+            });
+            btn.classList.add('is-active');
+            btn.textContent = sortLabels[btn.getAttribute('data-sort')] + ' \u2713';
+            currentSort = btn.getAttribute('data-sort');
+            applySearch();
+          });
+        });
+
+        destinationInput.addEventListener('input', function () {
+          var query = (destinationInput.value || '').toLowerCase().trim();
+          var detectedCity = cityFromQuery(query);
+          if (detectedCity) syncAreaSelectToCity(detectedCity);
+          debouncedSearch();
+        });
+
+        // Sync card hovering with map price pins
+        resultsList.addEventListener('mouseover', function (e) {
+          var card = e.target.closest('.property-card');
+          if (!card) return;
+          var hotelId = card.getAttribute('data-hotel-id');
+          document.querySelectorAll('.map-price-pin').forEach(function (p) {
+            p.classList.toggle('is-active', p.getAttribute('data-pin') === hotelId);
+          });
+        });
+
+        resultsList.addEventListener('mouseout', function (e) {
+          var card = e.target.closest('.property-card');
+          if (!card) return;
+          document.querySelectorAll('.map-price-pin').forEach(function (p) {
+            p.classList.toggle('is-active', p.getAttribute('data-pin') === activePinId);
+          });
+        });
+
+        areaSelect.addEventListener('change', function () {
+          var selectVal = areaSelect.value;
+          if (selectVal.indexOf('city:') === 0) {
+            var cityKey = selectVal.replace('city:', '');
+            var region = REGIONS[cityKey];
+            if (region) destinationInput.value = region.mapLabel;
+          }
+          applySearch();
+        });
+        priceFilter.addEventListener('change', applySearch);
+        checkinInput.addEventListener('change', applySearch);
+        checkoutInput.addEventListener('change', applySearch);
+
+        /* Guests change → recalculate prices immediately */
+        var guestsSelect = document.getElementById('search-guests');
+        if (guestsSelect) guestsSelect.addEventListener('change', applySearch);
+
+        document.getElementById('search-form').addEventListener('submit', function () {
+          setTimeout(applySearch, 0);
+        });
+
+        viewButtons.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            viewButtons.forEach(function (b) { b.classList.remove('is-active'); });
+            btn.classList.add('is-active');
+            exploreSplit.classList.toggle('explore-split--map-only', btn.getAttribute('data-view') === 'map');
+            
+            // Force Leaflet to recalculate map dimensions and load all tiles
+            if (googleMap) {
+              setTimeout(function () {
+                googleMap.invalidateSize({ animate: true });
+              }, 150); // Small delay to let the CSS transitions & grid layout complete
+            }
+          });
+        });
+
+        document.getElementById('map-zoom-in').addEventListener('click', function () {
+          if (googleMap) googleMap.setZoom(googleMap.getZoom() + 1);
+        });
+        document.getElementById('map-zoom-out').addEventListener('click', function () {
+          if (googleMap) googleMap.setZoom(googleMap.getZoom() - 1);
+        });
+        document.getElementById('map-fit-bounds').addEventListener('click', function () {
+          var search = resolveSearch();
+          var region;
+          if (search.all) {
+            region = {
+              label: 'Ghana', mapLabel: 'Ghana',
+              center: { lat: 7.9465, lng: -1.0232 }, zoom: 7,
+              bbox: [-3.26, 4.74, 1.20, 11.17]
+            };
+          } else {
+            region = REGIONS[search.city] || REGIONS.accra;
+          }
+          if (googleMap) {
+            if (region.bbox) {
+              googleMap.fitBounds(
+                [[region.bbox[1], region.bbox[0]], [region.bbox[3], region.bbox[2]]],
+                { padding: [32, 32] }
+              );
+            } else {
+              fitMapToHotels(sortHotels(filterHotels()), region);
+            }
+          }
+        });
+
+        function initGoogleMap() {
+          var notice = document.getElementById('map-key-notice');
+          if (notice) notice.hidden = true;
+
+          mapContainer.hidden = false;
+          if (mapEmbed) mapEmbed.hidden = true;
+
+          // Initialize Leaflet Map
+          googleMap = L.map(mapContainer, {
+            zoomControl: false,
+            attributionControl: true
+          }).setView([REGIONS.accra.center.lat, REGIONS.accra.center.lng], REGIONS.accra.zoom);
+
+          L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
+          }).addTo(googleMap);
+
+          mapsApiReady = true;
+          useEmbedFallback = false;
+
+          applySearch();
+        }
+
+        function initFromPage() {
+          var params = new URLSearchParams(window.location.search);
+
+          /* Hydrate all toolbar inputs from URL params before first render */
+          if (params.get('location')) {
+            destinationInput.value = params.get('location');
+          } else if (!destinationInput.value) {
+            destinationInput.value = 'Accra, Ghana';
+          }
+          if (params.get('checkin') && checkinInput)   checkinInput.value  = params.get('checkin');
+          if (params.get('checkout') && checkoutInput) checkoutInput.value = params.get('checkout');
+          if (params.get('guests')) {
+            var guestsEl = document.getElementById('search-guests');
+            if (guestsEl) guestsEl.value = params.get('guests');
+          }
+
+          var detected = cityFromQuery((destinationInput.value || '').toLowerCase());
+          syncAreaSelectToCity(detected || 'accra');
+          initGoogleMap();
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initFromPage);
+        } else {
+          initFromPage();
+        }
+      })();
+    </script>
+  </main>
+
+  <footer data-site-footer></footer>
+  <script src="main.js" defer></script>
+</body>
+</html>

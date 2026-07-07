@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Eclipse RJ Hotel Booking</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-bg page-flow">
+  <header class="site-header site-header--flow">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo" data-brand-logo aria-label="Eclipse RJ Home">
+        <span class="brand-logo__wordmark">ECLIPSE RJ</span>
+      </a>
+      <div data-booking-steps class="header-booking-steps"></div>
+      <div class="header-actions" data-header-actions></div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="checkout-page-header">
+      <h1 class="checkout-page-title">Complete your booking</h1>
+      <p class="checkout-page-sub">Almost there — confirm your details and pay securely.</p>
+    </div>
+
+    <form novalidate>
+      <div class="checkout-layout">
+
+        <!-- Left column: guest info + payment -->
+        <div class="checkout-left">
+
+          <!-- Guest info -->
+          <section class="checkout-panel">
+            <div class="checkout-panel__header">
+              <span class="checkout-panel__step">1</span>
+              <h2 class="checkout-panel__title">Guest Information</h2>
+            </div>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="guest-first">First Name <span aria-hidden="true">*</span></label>
+                <input type="text" id="guest-first" class="form-control" required placeholder="Kwame" autocomplete="given-name">
+              </div>
+              <div class="form-group">
+                <label for="guest-last">Last Name <span aria-hidden="true">*</span></label>
+                <input type="text" id="guest-last" class="form-control" required placeholder="Mensah" autocomplete="family-name">
+              </div>
+              <div class="form-group">
+                <label for="guest-email">Email Address <span aria-hidden="true">*</span></label>
+                <input type="email" id="guest-email" class="form-control" required placeholder="kwame@example.com" autocomplete="email">
+              </div>
+              <div class="form-group">
+                <label for="guest-phone">Phone Number <span aria-hidden="true">*</span></label>
+                <input type="tel" id="guest-phone" class="form-control" required placeholder="+233 55 000 0000" autocomplete="tel">
+              </div>
+              <div class="form-group">
+                <label for="guest-country">Country <span aria-hidden="true">*</span></label>
+                <select id="guest-country" class="form-control" required>
+                  <option value="Ghana">Ghana</option>
+                  <option value="Nigeria">Nigeria</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="United States">United States</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="guest-id-type">ID Type <span aria-hidden="true">*</span></label>
+                <select id="guest-id-type" class="form-control" required>
+                  <option>Ghana Card</option>
+                  <option>Passport</option>
+                  <option>Driver's License</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="guest-requests">Special Requests <span class="form-label-optional">(optional)</span></label>
+              <textarea id="guest-requests" class="form-control" rows="3" placeholder="Early check-in, dietary requirements, room preferences…"></textarea>
+            </div>
+          </section>
+
+          <!-- Payment -->
+          <section class="checkout-panel">
+            <div class="checkout-panel__header">
+              <span class="checkout-panel__step">2</span>
+              <h2 class="checkout-panel__title">Payment Method</h2>
+            </div>
+
+            <div class="checkout-trust-row" role="list" aria-label="Security guarantees">
+              <span class="checkout-trust-item" role="listitem">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                256-bit encryption
+              </span>
+              <span class="checkout-trust-item" role="listitem">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+                Free cancellation (48h)
+              </span>
+              <span class="checkout-trust-item" role="listitem">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+                MoMo, card &amp; bank
+              </span>
+            </div>
+
+            <div class="tabs-wrapper" id="payment-tabs">
+              <div class="tab-labels" role="tablist" aria-label="Payment methods">
+                <button type="button" role="tab" aria-selected="true" aria-controls="panel-momo" id="tab-momo" class="tab-btn">Mobile Money</button>
+                <button type="button" role="tab" aria-selected="false" aria-controls="panel-card" id="tab-card" class="tab-btn">Card</button>
+                <button type="button" role="tab" aria-selected="false" aria-controls="panel-bank" id="tab-bank" class="tab-btn">Bank Transfer</button>
+              </div>
+
+              <div role="tabpanel" id="panel-momo" aria-labelledby="tab-momo" class="tab-content">
+                <div class="form-group">
+                  <label for="momo-network">Network</label>
+                  <select id="momo-network" class="form-control" name="momo_network">
+                    <option>MTN Mobile Money</option>
+                    <option>Telecel Cash</option>
+                    <option>AirtelTigo Money</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="momo-number">Mobile Money Number</label>
+                  <input type="tel" id="momo-number" class="form-control" placeholder="055 000 0000" name="momo_number">
+                </div>
+                <p class="checkout-payment-hint">
+                  A prompt will appear on your phone. Enter your PIN to authorise payment of <strong data-booking-fill="total">GH&#x20B5;19,035</strong>.
+                </p>
+              </div>
+
+              <div role="tabpanel" id="panel-card" aria-labelledby="tab-card" class="tab-content" hidden>
+                <div class="form-group">
+                  <label for="card-number">Card Number</label>
+                  <input type="text" id="card-number" class="form-control" placeholder="0000 0000 0000 0000" inputmode="numeric" name="card_number">
+                </div>
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label for="card-expiry">Expiry</label>
+                    <input type="text" id="card-expiry" class="form-control" placeholder="MM / YY" name="card_expiry">
+                  </div>
+                  <div class="form-group">
+                    <label for="card-cvv">CVV</label>
+                    <input type="text" id="card-cvv" class="form-control" placeholder="123" inputmode="numeric" name="card_cvv">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="card-name">Name on Card</label>
+                  <input type="text" id="card-name" class="form-control" placeholder="Kwame Mensah" autocomplete="cc-name" name="card_name">
+                </div>
+              </div>
+
+              <div role="tabpanel" id="panel-bank" aria-labelledby="tab-bank" class="tab-content" hidden>
+                <div class="checkout-bank-details">
+                  <div class="checkout-bank-row"><span>Bank</span><strong>Ecobank Ghana</strong></div>
+                  <div class="checkout-bank-row"><span>Account Name</span><strong>Eclipse RJ Hospitality Ltd</strong></div>
+                  <div class="checkout-bank-row"><span>Account Number</span><strong>1234567890123</strong></div>
+                  <div class="checkout-bank-row"><span>Branch</span><strong>Airport Residential</strong></div>
+                </div>
+                <p class="checkout-payment-hint">Use your phone number as the transfer reference. Booking stays pending until verified.</p>
+                <label class="checkbox-label checkbox-label--spaced-top">
+                  <input type="checkbox" id="bank-transfer-confirm" name="bank_confirm">
+                  I have completed the transfer
+                </label>
+              </div>
+            </div>
+
+            <hr class="checkout-divider">
+
+            <label class="checkbox-label checkbox-label--spaced-bottom">
+              <input type="checkbox" id="checkout-terms" required>
+              I agree to the <a href="index.html#booking-policy" class="accent-link">Terms &amp; Conditions</a> and Cancellation Policy
+            </label>
+
+            <button type="submit" class="btn btn-accent btn-block btn-pay-lg" data-booking-fill="payCta">
+              Confirm &amp; Pay GH&#x20B5;19,035
+            </button>
+          </section>
+
+        </div>
+
+        <!-- Right column: order summary -->
+        <aside class="checkout-right">
+          <div class="booking-summary-card">
+
+            <div class="checkout-summary-hotel">
+              <img src="Images/Luxury hotel room.jpg"
+                   class="checkout-summary-img" alt="" data-booking-fill-img="main">
+              <div class="checkout-summary-hotel__info">
+                <p class="checkout-summary-hotel__name" data-booking-fill="room">Ocean View Suite</p>
+                <p class="checkout-summary-hotel__loc">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span data-booking-fill="location">Accra, Ghana</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="summary-block">
+              <div class="summary-row">
+                <span class="text-muted-sm">Check-in</span>
+                <strong data-booking-fill="checkin">Jun 15, 2026</strong>
+              </div>
+              <div class="summary-row">
+                <span class="text-muted-sm">Check-out</span>
+                <strong data-booking-fill="checkout">Jun 18, 2026</strong>
+              </div>
+              <div class="summary-row">
+                <span class="text-muted-sm">Guests</span>
+                <strong data-booking-fill="guests">2 Adults</strong>
+              </div>
+            </div>
+
+            <div class="price-breakdown">
+              <div class="price-row">
+                <span class="text-muted-sm" data-booking-fill="subtotalLine">GH&#x20B5;5,500 × 3 nights</span>
+                <span data-booking-fill="subtotal">GH&#x20B5;16,500</span>
+              </div>
+              <div class="price-row">
+                <span class="text-muted-sm">Taxes &amp; Fees (15%)</span>
+                <span data-booking-fill="tax">GH&#x20B5;2,475</span>
+              </div>
+              <div class="price-row">
+                <span class="text-muted-sm">Tourism Levy</span>
+                <span data-booking-fill="levy">GH&#x20B5;60</span>
+              </div>
+            </div>
+
+            <div class="price-total price-total--flush">
+              <span>Total</span>
+              <strong data-booking-fill="total">GH&#x20B5;19,035</strong>
+            </div>
+
+            <div class="checkout-summary-badges">
+              <span>🔒 Secure checkout</span>
+              <span>↩ Free cancellation (48h)</span>
+              <span>✓ No hidden fees</span>
+            </div>
+
+          </div>
+        </aside>
+
+      </div>
+    </form>
+  </main>
+
+  <footer data-site-footer></footer>
+  <script src="main.js" defer></script>
+</body>
+</html>
