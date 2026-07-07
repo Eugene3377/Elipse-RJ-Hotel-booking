@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Eclipse RJ Hotel Booking
 
 A static hotel booking website for browsing Ghana hotel stays, choosing a room, reviewing checkout details, and viewing a booking confirmation.
@@ -51,4 +50,3 @@ This project can be hosted as a static site. Push the folder to GitHub, then ena
 =======
 # Elipse-RJ-Hotel-booking
 Eclipse RJ Hotel Booking is a premium, static web application built with HTML, Vanilla CSS, and JavaScript that provides a luxury hotel search, suite details, checkout, and session-based booking flow for high-end properties across Ghana.
->>>>>>> c49a9000083472913be8f95970e662eb7601c9e2
